@@ -1,0 +1,66 @@
+stack 20 | MIBL-004-M  | FsUjGECRv3HDTQt | 10.50.40.227
+
+DAY1
+    SCANNING AND RECONAISSANCE
+       Scraping data script
+         #sudo pip3 install lxml
+         #sudo pip3 install requests
+          
+          import lxml.html
+          import requests
+
+          page = requests.get('http://quotes.toscrape.com')
+          tree = lxml.html.fromstring(page.content)
+
+          authors = tree.xpath('//small[@class="author"]/text()')
+
+          print ('Authors: ',authors)
+          
+          SCANNING STEPS
+          
+            Host Discovery
+              Find hosts that are online
+            Host Enumeration
+              Find ports for each host that is online
+            Host Interrogation
+              Find what service is running on each open/available port
+          
+          PASSIVE RECON  
+          
+            cat /etc/os-release - provides OS info
+
+            lsb_release -a - provides OS info
+
+            uname -a - print system information
+
+            hostnamectl - print system information in a cleaned up format
+
+            ip addr - print IP addresses with interfaces
+
+          NMAP SCRIPTS
+          
+           /usr/share/nmap/scripts
+            nmap --script <filename>|<category>|<directory>
+            nmap --script-help "ftp-* and discovery"
+            nmap --script-args <args>
+            nmap --script-args-file <filename>
+            nmap --script-help <filename>|<category>|<directory>
+            nmap --script-trace
+            
+            maybe remember these , important or something idk
+              http-enum
+              http-robots.txt.nse
+              smb-os-discovery
+              --script"discovery" - runs all discovery type scripts
+              
+            for i in {1..254}; do (ping -c 1 x.x.x.$i | grep "bytes from" &) ;done 
+            
+            nmap -Pn -T4 xxx.xxx.xxx.xxx -p- --min-rate=8000
+            
+            nc xxx.xxx.xxx.xxx (port)
+            
+            !!! ports 445,9999,3389 being open = telltale sign that you just scanned a windows box !!!
+            
+            
+            
+            
