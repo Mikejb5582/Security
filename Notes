@@ -1,7 +1,8 @@
 stack 20 | MIBL-004-M  | FsUjGECRv3HDTQt | 10.50.40.227
 
 DAY1
-    SCANNING AND RECONAISSANCE
+   
+   SCANNING AND RECONAISSANCE
        Scraping data script
          #sudo pip3 install lxml
          #sudo pip3 install requests
@@ -62,5 +63,41 @@ DAY1
             !!! ports 445,9999,3389 being open = telltale sign that you just scanned a windows box !!!
             
             
+DAY2
             
-            
+    HTTP
+        - request
+        - reply
+      Methods
+        - GET *** requesting/retrieving data
+        - HEAD 
+        - POST *** sending information i.e. login credentials
+      ## GET / HTTP/1.1
+        - GET *** HTTP method to request/retrieve
+        - / *** www.google.com/
+        - HTTP/1.1 *** HTTP version being used
+      Status Codes
+        - 1xx = Informational response
+        - 2xx = successful
+        - 3xx = Redirection
+        - 4xx = Client Error
+        - 5xx = Server Error
+      Developer Console
+        1. Open a web page in firefox
+        2. Right click -> view page source
+        3. press f12
+            document.location; document.cookie; function(); can run existing functions on the website
+    WGET & CURL
+        WGET
+            wget -r -l2 -P /tmp ftp://ftpserver/
+             ^ -r recursive, -l2 2 layers deep, -P /tmp saves to tmp directory
+                - Per Jake, do not rely on WGET as a crutch
+       CURL
+            curl -o imstuff.html hhtp://www.reddit.com
+            curl 'website' -H 'Cookie: name=123; settings=1,2,3,4,5,6,7' --data 'name=Stan' | base64 -d > item.png *** Send Cookie settings with data, then pipe results
+    JavaScript
+       js interactive - <script> function myFunction() { document.getElementById("demo").innerHTML = "Paragraph changed.";} </script>
+            1. f12 thing
+            2. 'console' tab
+            3. can run function, i.e. 'changeText()
+        
