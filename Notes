@@ -237,8 +237,57 @@ GET Method
          
          
          
+DAY4
+      REVERSE ENGINEERING 
+        x86_64 Assembly - Common Instruction Pointers
+         MOV      move source to destination
+         PUSH     push source onto stack
+         POP      pop top of stack to destination
+         INC      increment source by 1 
+         DEC      decrement source by 1 
+         ADD      add source to dstination
+         SUB      subtract source from destination
+         CMP      Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same.
+         JMP      jump to specified location
+         LE       jump if less than or equal
+         E        jump if equal
+         
+         Steps
+         static 
+            - determine file type:: file <filename>
+            - find plain text ascii and unicode:: strings -n <number> <filename>
+            - CFF explorer
+            - GNU debugger:: gdb <filename>
+            behavioral
+               - run file, fuck with it and see what it does
+               dynamic
+                  - tbd
+                  disassembly
+                     - IDA / Ghidra
+                     - file > importfile > file_to_import
+                     - compare hashes from ghidra summary and linux md5sum to verify file integrity
+                     - example output from middle pane w/ their meaning:
+                         00407cc2   83 c0 08   ADD		            EAX,0x8
+                         Memory	   Opcodes    ASM Instruction    Operands
+                     - Ghidra
+                      -  ; is shortcut for command to add comments, param_1 means user input in ghidra
+                      -  search strings for artifacts to find functions and variables
+                      -  double click FUN_ to open functions in ghidra
+                      -  to patch, right click and choose "patch instruction"
+                      -  after patching, export file as binary to a different name so that it does not overwrite the original file
+                      -  to export, ``file > export program > change to binary > give name of patched_<file.exe> so you know which one is patched`
+                      -  to run the patched file, .<patched_file.exe>
+                     document findings
          
          
+main(): indicates main entry point and start of program
+printf = sends formatted output to stdout
+%d = signed decimal integer
+%f = decimal floating point
+%s = strings
+fgets(): reads a line from the specified stream and stores it inot the string pointned ot by str. char *fgets(char *str, in n, FILE *stream)
+strcmp(): compares str1 and str2
+atoi(): ascii to integer
          
          
          
