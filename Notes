@@ -240,22 +240,24 @@ GET Method
 DAY4
       REVERSE ENGINEERING 
         x86_64 Assembly - Common Instruction Pointers
-         MOV      move source to destination
+         MOV/LEA  move source to destination
          PUSH     push source onto stack
-         POP      pop top of stack to destination
+         POP      pop top of stack to destination *** rounds in a magazine
          INC      increment source by 1 
          DEC      decrement source by 1 
          ADD      add source to dstination
          SUB      subtract source from destination
-         CMP      Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same.
+         CMP/TEST Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same.
          JMP      jump to specified location
-         LE       jump if less than or equal
+         LE       jump if less than or equal *** JLE A, B * JUMP IF B IS LESS THAN A 
          E        jump if equal
+         JNZ      jump if not 0
+         [edp+var_4] ** probably user input
          
          Steps
          static 
-            - determine file type:: file <filename>
-            - find plain text ascii and unicode:: strings -n <number> <filename>
+            - determine file type:: file <filename> OR IDA
+            - find plain text ascii and unicode:: strings -n <number> <filename> OR IDA view > subviews > strings
             - CFF explorer
             - GNU debugger:: gdb <filename>
             behavioral
@@ -279,10 +281,10 @@ DAY4
                       -  to run the patched file, .<patched_file.exe>
                      document findings
          
-         
+C Source Code
 main(): indicates main entry point and start of program
 printf = sends formatted output to stdout
-%d = signed decimal integer
+%d = signed decimal integer * placeholder
 %f = decimal floating point
 %s = strings
 fgets(): reads a line from the specified stream and stores it inot the string pointned ot by str. char *fgets(char *str, in n, FILE *stream)
