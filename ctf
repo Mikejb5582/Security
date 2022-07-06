@@ -1,0 +1,6 @@
+Reverse Engineering
+  ssh on to web server and transfer files
+    ssh student@10.50.40.227 -L 30000:192.168.28.111:2222 -NT
+    scp -P 30000 comrade@localhost:/var/www/html/consulting/public_html/longTermStorage/* .
+    scp ctf/* student@10.50.24.101:C:/users/student/ctf
+    
