@@ -292,8 +292,101 @@ strcmp(): compares str1 and str2
 atoi(): ascii to integer
          
          
-         
-         
-         
-         
-         
+DAY5
+      EXPLOIT DEVELOPMENT
+         Stack Operational Terms (stack,base pointer,shell code,etc)- see student guide
+      
+      Disassembly Tools 
+         - IDA, GHIDRA (optional)
+         - GDB linux debugger
+         - MONA python plugin for IMMUNITY debugger
+      Exploit Development Process 
+         - Run it 
+         - Attempt to overflow it
+         - Open in debugger (GDB) to see how it (maybe) broke
+             - gdb func
+              - pdisass main
+               - gdb <function>
+                - gdb-peda$ run <<< $(python /home/student/Downloadsfuncballs.py)
+                  - Find EIP 
+                           ESP: 0xffffd480 ("Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag")
+                           EIP: 0x31634130 ('0Ac1')
+                           EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
+                      - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+                        - this will show you the offset
+                                  1 buf = "A" * 62                                                                                                                                                                                                 
+                                  2 
+                                  3 eip = "B" * 4
+                                  4 
+                                  5 print(buf + eip)
+                              - 
+                        
+                        
+                  env - gdb func
+                  (gdb) show env
+                  LINES=16
+                  COLUMNS=53
+                  (gdb) unset env LINES
+                  (gdb) unset env COLUMNS
+                  (gdb) run
+                  Starting program: /home/student/Downloads/func 
+                  Enter a string: 
+                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+                  Program received signal SIGSEGV, Segmentation fault.
+                  0x61616161 in ?? ()
+                  (gdb) info proc map
+                  process 14774
+                  Mapped address spaces:
+
+                     Start Addr   End Addr       Size     Offset objfile
+                     0x56555000 0x56556000     0x1000        0x0 /home/student/Downloads/func
+                     0x56556000 0x56557000     0x1000        0x0 /home/student/Downloads/func
+                     0x56557000 0x56558000     0x1000     0x1000 /home/student/Downloads/func
+                     0x56558000 0x5657a000    0x22000        0x0 [heap]
+                     0xf7de0000 0xf7fb5000   0x1d5000        0x0 /lib/i386-linux-gnu/libc-2.27.so *********** START Addr
+                  ---Type <return> to continue, or q <return> to quit---                                                  
+                     0xf7fb5000 0xf7fb6000     0x1000   0x1d5000 /lib/i386-linux-gnu/libc-2.27.so
+                     0xf7fb6000 0xf7fb8000     0x2000   0x1d5000 /lib/i386-linux-gnu/libc-2.27.so
+                     0xf7fb8000 0xf7fb9000     0x1000   0x1d7000 /lib/i386-linux-gnu/libc-2.27.so
+                     0xf7fb9000 0xf7fbc000     0x3000        0x0 
+                     0xf7fcf000 0xf7fd1000     0x2000        0x0 
+                     0xf7fd1000 0xf7fd4000     0x3000        0x0 [vvar]
+                     0xf7fd4000 0xf7fd6000     0x2000        0x0 [vdso]
+                     0xf7fd6000 0xf7ffc000    0x26000        0x0 /lib/i386-linux-gnu/ld-2.27.so
+                     0xf7ffc000 0xf7ffd000     0x1000    0x25000 /lib/i386-linux-gnu/ld-2.27.so
+                     0xf7ffd000 0xf7ffe000     0x1000    0x26000 /lib/i386-linux-gnu/ld-2.27.so *********** END Addr
+                     0xfffdd000 0xffffe000    0x21000        0x0 [stack]
+                     (gdb) find /b 0xf7de0000, 0xf7ffe000, 0xff, 0xe4
+
+                        0xf7f6ce1f
+                        0xf7f6cf87
+                        0xf7f6d04f
+                        0xf7f6d10f
+                        0xf7f6d2df
+                        0xf7f6d587
+                        0xf7f6d5cf
+                        0xf7f6d79f
+                        0xf7f6daf7
+                        0xf7f6dc7f
+                        0xf7f737b3
+                        0xf7f76a5f
+                        0xf7f78a5f
+                        0xf7f78cbf
+                        0xf7f832e7
+                        0xf7f912a3
+                        0xf7f91df7
+                        0xf7f99177
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
