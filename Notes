@@ -307,13 +307,17 @@ DAY5
          - Open in debugger (GDB) to see how it broke (RED) ****** In demo, <gets@plt> is red, look up "C 'gets' function vunerability" or sum, you get the idea
              - gdb func
               - pdisass main
+               - pdisass vunerable function
+                - run, make it overflow
+                 - "repeats x times"
+                  - get pattern from wiremask (below**) and get funny offset number
                - gdb <function>
                 - gdb-peda$ run <<< $(python /home/student/Downloadsfuncballs.py)
                   - Find EIP 
                            ESP: 0xffffd480 ("Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag")
                            EIP: 0x31634130 ('0Ac1')
                            EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
-                      - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+          **          - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
                         - this will show you the offset, line 3 places 4 bits (length of EIP) at the end of the offset for verification
                                   1 buf = "A" * 62                                                                                                                                                                                                 
                                   2 
@@ -321,7 +325,7 @@ DAY5
                                   4 
                                   5 print(buf + eip)
                               -  gdb-peda$ run <<< $(python /home/student/Downloadsfuncballs.py)
-                                - make sure EIP is : 0x12345678 ('BBBB')
+                                - make sure EIP is : 0xwhatever ('BBBB')
                         
                         
                   env - gdb func
