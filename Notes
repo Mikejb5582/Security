@@ -440,9 +440,66 @@ DAY5
                - pick another jump esp (from info proc map >> find command)
                - take the L loser, do it all over again 
       
-      
-      
-      
-      
-      
+DAY ???
+         POST EXPLOITATION
+               
+            CONTROL SOCKETS 
+               ~/.ssh/cm$ ssh -M -S /home/student/.ssh/cm/%r@%h:%p student@10.50.40.227
+                %r - remote user
+                %h - host
+                %p - port
+               ~/.ssh/cm$ ssh -o "ControlPath=/home/student/.ssh/cm/student@10.50.40.227:22" gray
+                  - do not have to authenticate again
+               ~/.ssh/cm$ ssh -O forward -L1111:192.168.28.120:2222 -S /home/student/.ssh/cm/student@10.50.40.227:22 gray
+                                 'cancel' kills the connection 
+                                             
+               ~/.ssh/cm$ ssh -M -S /home/student/.ssh/cm/%r@%h:%p root@0.0.0.0 -p 1111
+               ~/.ssh/cm$ ssh -O forward -L2222:10.50.39.57:22 -S /home/student/.ssh/sm/root@0.0.0.0:1111 T1
+               
+               vim config
+               Host gray
+                  HostName 10.50.40.227
+                  ControlPath /home/student/.ssh/cm/gray
+                  ControlMaster auto
+                  ControlPersist 10m
+                                  ^ open for 10 minutes
+               ssh student@gray
+                  bam
+    (cont.)   Host *
+                  ControlPath /home/studnt/.ssh/cm/%r@%h:%p
+                  ControlMaster auto
+                  ControlPersist 10m
+               
+               ssh -O forward -L1111:10.50.40.227:22 -S ~/.ssh/cm/gray T1
+               ssh root@0.0.0.0:1111
+               
+         ACTUALLY POST EXPLOITATION      
+               
+               Linux session logging:
+               ssh user@target | tee /var/tmp/activity.log
+               Windows session logging:
+               ssh user@target | tee-object C:\temp\activity.log
+                  - copes output to file ? not sure how it works tbh prolly wont use it
+           
+           Privilege Escalation - Windows:
+            Security Descriptors:
+               * DACL - Discretionary Access Control List
+               * SACL - System Access Control List
+               * ACE - Access Control Entries
+            Persistence Mechanisms:
+               * Registry key (HKLM\Software\Microsoft\Windows\CurrentVersion\Run)
+               * Task Scheduler
+               * Services
+           
+           reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+            - User Account Control 
+              * Always Notify
+              * Notify me only when programs try to make changes to my computer
+              * Notify me only when programs try to make changes to my computer (do not dim my desktop)
+              * Never notify
+               
+            schtasks /query /fo LIST /v
+               - when gui isnt available, be careful with /v, output is OBTUSE
+               wmic service list full
+               - same idea, be careful with full. output scary either way
       
