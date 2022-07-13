@@ -558,3 +558,14 @@ DAY ???
            
            
            
+           ./unknown 7 $'Defaults env_reset\nDefaults mail_badpass\nDefaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"\nroot ALL=(ALL:ALL) ALL\n%admin ALL=(ALL:ALL) ALL\n%sudo ALL=(ALL:ALL) ALL'
+            
+            Defaults env_reset
+            Defaults mail_badpass
+  REDACTED  Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+    DUMMY   root ALL=(ALL:ALL) ALL
+            %admin ALL=(ALL:ALL) ALL
+            %sudo ALL=(ALL:ALL) ALL
+                  
+            comrade ALL=(ALL) NOPASSWD:ALL
+           
