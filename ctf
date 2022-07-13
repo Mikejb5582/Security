@@ -75,3 +75,21 @@ ELF1
  42 s.send(buf)
  43 s.close()
 
+
+
+  internal 192.168.28.9
+  intranet 192.168.150.253
+  
+  
+  student@lin-ops:~$ ssh 10.50.27.167 -L 6969:192.168.28.100:2222
+  student@lin-ops:~$ ssh comrade@localhost -p 6969 -L 7979:192.168.28.9:3389
+  the 167 is gray host
+  xfreerdp /u:comrade /v:0.0.0.0 /port:7979 +glyph-cache +clipboard
+  
+  
+  
+  
+  LINUX PRIV ESC 
+    ssh student@10.50.40.227 -L 5000:192.168.28.105:2222 
+    ssh comrade@localhost -p 5000 -D 9050 
+    227 is gray box, 105 is pivot to target (27)
