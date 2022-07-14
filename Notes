@@ -525,7 +525,51 @@ DAY ???
                ssh root@0.0.0.0:1111
                
          ACTUALLY POST EXPLOITATION      
+         
+            
+            LOCAL HOST ENUMERATION
                
+             WINDOWS
+              
+               GUI: Search services, task scheduler, file explorer,  etc.
+               Net user - Find out what users are on the box
+               Tasklist /v - Enumerate processes (Useful for finding antivirus)
+               Tasklist /svc - Enumerate services (Useful for finding antivirus)
+               Ipconfig /all - Enumerate network connection
+               Netstat - Show connections
+               Net share - view shares
+             
+             LINUX
+             
+               Whoami - See if you are the user you are supposed to be
+               Hostname - See hostname of the machine
+               Cat /etc/passwd - Find out what users are on the box
+               Ps -elfH (Hierarchy) - Enumerate processes (Useful for finding antivirus)
+               Chkconfig - Enumerate services
+               Ifconfig -a / ip a - Enumerate network connection
+               Arp -a / ip neigh - View possible previous connections
+               SS -nltp - New netstat command
+               Date - Print time
+               Uname -a - Kernel version info
+               Last - Who was last logged in
+               Find /* -type d -iname “.*” - Find hidden directories
+               Important Linux directories:
+               /etc (Look for antivirus)
+               /etc/hosts
+               /etc/rsyslog.conf
+               /tmp
+               /home
+               /root
+               /var/spool/crontab
+               /etc/cron*
+               Import Windows directories:
+               C:\
+               C:\Users
+               C:\Users\Public
+               C:\Program Files
+               C:\Windows\System32
+
+
                Linux session logging:
                ssh user@target | tee /var/tmp/activity.log
                Windows session logging:
@@ -572,6 +616,7 @@ DAY ???
        scp -3 student@xxx.xxx.xxx.2:/home/student/secrets.txt student@xxx.xxx.xxx.1:/home/student
        
        sudo -l
+       
 DAY ???     
        CLEANING THE LOGS:
          Basic:
