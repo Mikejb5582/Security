@@ -673,4 +673,7 @@ DAY ???
             %sudo ALL=(ALL:ALL) ALL
                   
             comrade ALL=(ALL) NOPASSWD:ALL
+            
+            
+            
            
