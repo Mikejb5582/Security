@@ -310,6 +310,9 @@ atoi(): ascii to integer
          
          
 DAY5
+
+            which gdb
+         
       EXPLOIT DEVELOPMENT
          Stack Operational Terms (stack,base pointer,shell code,etc)- see student guide
       
